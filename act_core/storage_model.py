@@ -80,6 +80,7 @@ class StorageModel:
         capacity,
         fab_yield: float = DEFAULT_FAB_YIELD,
         n_ics: int = 0,
+        add_ic_packaging: bool = True,
     ) -> Carbon:
         """
         Calculates the total carbon emissions for a given process, capacity, and fabrication yield.
@@ -98,6 +99,9 @@ class StorageModel:
             log.error(f"Capacity must have units of storage. Got {capacity}")
             exit(-1)
         self._check_process(process)
-        return Carbon(
+        carbon = Carbon(
             capacity * self.get_cpg(process, fab_yield), SourceType.FABRICATION
-        ) + Carbon(n_ics * CARBON_PER_IC_PACKAGE, SourceType.PACKAGING)
+        )
+        if add_ic_packaging:
+            carbon = carbon + Carbon(n_ics * CARBON_PER_IC_PACKAGE, SourceType.PACKAGING)
+        return carbon

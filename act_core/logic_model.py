@@ -140,6 +140,7 @@ class LogicModel:
         n_ics: int = 0,
         gpa=AbatementLevel.GPA97,
         fab_ci=EnergyLocation.TAIWAN,
+        add_ic_packaging: bool = True,
     ) -> Carbon:
         """
         Get the total carbon emissions for a given logic process, area, and fabrication yield.
@@ -178,9 +179,9 @@ class LogicModel:
         cpa = self.get_cpa(
             logic_process=logic_process, fab_yield=fab_yield, gpa=gpa, fab_ci=fab_ci
         )
-        carbon = Carbon(area * cpa, SourceType.FABRICATION) + Carbon(
-            n_ics * CARBON_PER_IC_PACKAGE, SourceType.PACKAGING
-        )
+        carbon = Carbon(area * cpa, SourceType.FABRICATION)
+        if add_ic_packaging:
+            carbon = carbon + Carbon(n_ics * CARBON_PER_IC_PACKAGE, SourceType.PACKAGING)
         return carbon
 
     def get_carbon_energy(

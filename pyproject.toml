@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "act-core"
+version = "0.1.0"
+description = "Shared architectural carbon core (ACT) - embodied + operational carbon models, consumed by ACT, MicroGreen/EmbodiedCarbonModeling, and EServe."
+requires-python = ">=3.11"
+dependencies = ["pint", "pyyaml"]
+
+# Package ONLY the shared core. ACT's `act` frontend (CLI) stays usable via
+# PYTHONPATH and is intentionally not installed, so consumers that have their own
+# `act` package (e.g. EmbodiedCarbonModeling) don't collide on the name.
+[tool.setuptools]
+packages = ["act_core"]
+
+[tool.setuptools.package-data]
+act_core = ["models/**/*", "models/**/*.yaml"]
