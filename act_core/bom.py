@@ -6,6 +6,14 @@
 from dataclasses import dataclass
 
 from .capacitor_model import CapacitorType
+from .connector_model import ConnectorType
+from .diode_model import DiodeType
+from .resistor_model import ResistorType
+from .switch_model import SwitchType
+from .inductor_model import InductorType
+from .other_model import OtherType
+from .active_model import ActiveType
+
 from .units import *
 import os
 from enum import Enum
@@ -79,7 +87,7 @@ class BOM:
 
         # convert the dictionary to unit'ed structure and specifications
         passives = dict()
-        if self.passives is not None:
+        if self.passives is not None:  # passive refers to everything that's not a main chip or physical structure.
             for cname, cdata in self.passives.items():
                 cat = ComponentCategory(cdata[CATEGORY])
                 if cat is ComponentCategory.CAPACITOR:
@@ -88,6 +96,18 @@ class BOM:
                     passives[cname] = ResistorSpec(**cdata)
                 elif cat is ComponentCategory.SIGNAL_BEAD:
                     passives[cname] = BaseSpec(**cdata)
+                elif cat is ComponentCategory.CONNECTOR:  
+                    passives[cname] = ConnectorSpec(**cdata)
+                elif cat is ComponentCategory.DIODE:
+                    passives[cname] = DiodeSpec(**cdata)
+                elif cat is ComponentCategory.SWITCH:
+                    passives[cname] = SwitchSpec(**cdata)
+                elif cat is ComponentCategory.ACTIVE:
+                    passives[cname] = ActiveSpec(**cdata)
+                elif cat is ComponentCategory.INDUCTOR:
+                    passives[cname] = InductorSpec(**cdata)
+                elif cat is ComponentCategory.OTHER:
+                    passives[cname] = OtherSpec(**cdata)
                 else:
                     raise NotImplementedError(
                         f"Materials specification category {cat} for materials list item {cname} not defined."
@@ -177,12 +197,14 @@ class BaseSpec:  # common materials specifications
     capacity: pint.Quantity = "0 kWh"
     fab_ci: str = None
     layers: int = None
+    thickness: pint.Quantity = None  # Added for PCB thickness
 
     def __post_init__(self):
         self.weight = units(self.weight)
         self.category = ComponentCategory(self.category)
         self.area = units(self.area)
         self.capacity = units(self.capacity)
+        self.thickness = units(self.thickness) if self.thickness is not None else None
         self.fab_ci = (
             get_src_or_loc(self.fab_ci)
             if self.fab_ci is not None
@@ -198,11 +220,37 @@ class CapacitorSpec(BaseSpec):
         super().__post_init__()
         self.type = CapacitorType(self.type)
 
+@dataclass
+class SwitchSpec(BaseSpec):
+    type: str = SwitchType.GENERIC.value
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = SwitchType(self.type)
 
 @dataclass
 class ResistorSpec(BaseSpec):
-    type: str = ""
+    type: str = ResistorType.PKG_0805.value
 
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = ResistorType(self.type)
+
+@dataclass
+class ConnectorSpec(BaseSpec):
+    type: str = ConnectorType.PERIPHERAL.value
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = ConnectorType(self.type)
+
+@dataclass
+class DiodeSpec(BaseSpec):
+    type: str = DiodeType.GENERIC.value
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = DiodeType(self.type)
 
 @dataclass
 class MaterialSpec(BaseSpec):
@@ -214,7 +262,29 @@ class MaterialSpec(BaseSpec):
         self.type = (
             self.material_type(self.type) if self.type else self.material_type.NA
         )
+@dataclass
+class InductorSpec(BaseSpec):
+    type: str = InductorType.PKG_0805.value
 
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = InductorType(self.type)
+        
+@dataclass
+class OtherSpec(BaseSpec):
+    type: str = OtherType.GENERIC.value
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = OtherType(self.type)
+
+@dataclass
+class ActiveSpec(BaseSpec):
+    type: str = ActiveType.GENERIC.value
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = ActiveType(self.type)
 
 def load_bom(materials_file: str, material_type: Enum):
     """Load the materials file and return a BOM data structure"""

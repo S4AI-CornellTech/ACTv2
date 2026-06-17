@@ -11,3 +11,11 @@
 # also provide the weighted average carbon per area per layer of the GHG-CO2-eq to interpolate the higher layers
 # assumes zero intercept linear model for now in lieu of a better model and more data
 cpla : 0.13 kg / m2
+
+# typical thickness by layer (for adjustment when actual thickness is provided)
+typical_thickness:
+  2: 1.6 mm  # https://docs.arduino.cc/resources/datasheets/ABX00031-datasheet.pdf
+
+# carbon coefficient when thickness is provided: kg CO2e per mm² of PCB
+# formula: area (mm²) × layers × thickness (mm) × carbon_coefficient
+carbon_coefficient: 0.000006125 kg / mm^3 # https://dl.acm.org/doi/pdf/10.1145/3643561

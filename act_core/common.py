@@ -35,7 +35,9 @@ class LogicProcess(Enum):
     """
     Enum representing different logic processes.
     """
-
+    N180 = "180nm"
+    N130 = "130nm"
+    N90 = "90nm"
     N65 = "65nm"
     N45 = "45nm"
     N40 = "40nm"
@@ -150,7 +152,6 @@ class EnergySource(Enum):
     NUCLEAR = "nuclear"
     WIND = "wind"
 
-
 """
 Default fabrication source.
 """
@@ -190,14 +191,21 @@ class ComponentCategory(Enum):
     CAPACITOR = "capacitor"
     RESISTOR = "resistor"
     DIODE = "diode"
+    INDUCTOR = "inductor"
     FRAME = "frame"
     ENCLOSURE = "enclosure"
     SILICON = "silicon"
     PCB = "pcb"
     BATTERY = "battery"
     SIGNAL_BEAD = "signal bead"
+    CONNECTOR = "connector"
+    SWITCH = "switch"
+    ACTIVE = "active"
+    TIN = "tin"
+    BRONZE = "bronze"
+    PB_FREE_SOLDER = "pb_free_solder"
+    ALUMINUM = "aluminum"
     OTHER = "other"
-
 
 class ModelType(Enum):
     """
