@@ -3,8 +3,8 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from ..core.common import CARBON_PER_IC_PACKAGE
-from ..core.units import kg
+from act_core.common import CARBON_PER_IC_PACKAGE
+from act_core.units import kg
 
 from .base_test_case import BaseTestCase
 

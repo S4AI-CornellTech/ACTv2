@@ -11,26 +11,26 @@ import tempfile
 
 import pint
 import yaml
-from .core.units import *
+from act_core.units import *
 
-from .core.arg_parser import get_clean_args, get_parser
-from .core.common import *
+from act_core.arg_parser import get_clean_args, get_parser
+from act_core.common import *
 
-from .core.capacitor_model import CapacitorModel, DEFAULT_CP_CONFIG
-from .core.carbon import Carbon, SourceType
+from act_core.capacitor_model import CapacitorModel, DEFAULT_CP_CONFIG
+from act_core.carbon import Carbon, SourceType
 
-from .core.dram_model import DEFAULT_DRAM_CONFIG, DRAMModel
-from .core.hdd_model import DEFAULT_HDD_CONFIG, HDDModel
+from act_core.dram_model import DEFAULT_DRAM_CONFIG, DRAMModel
+from act_core.hdd_model import DEFAULT_HDD_CONFIG, HDDModel
 
-from .core.logger import log, setup_logger
-from .core.logic_model import LogicModel
-from .core.materials_model import DEFAULT_MATERIALS_CONFIG, MaterialsModel
-from .core.op_model import OpModel
-from .core.ssd_model import SSDModel
-from .core.bom import *
-from .core.battery_model import BatteryModel
-from .core.pcb_model import DEFAULT_PCB_MODEL_FILE, PCBModel
-from .core.utils import DEFAULT_LOCATION_CONFIG, DEFAULT_SOURCE_CONFIG
+from act_core.logger import log, setup_logger
+from act_core.logic_model import LogicModel
+from act_core.materials_model import DEFAULT_MATERIALS_CONFIG, MaterialsModel
+from act_core.op_model import OpModel
+from act_core.ssd_model import SSDModel
+from act_core.bom import *
+from act_core.battery_model import BatteryModel
+from act_core.pcb_model import DEFAULT_PCB_MODEL_FILE, PCBModel
+from act_core.utils import DEFAULT_LOCATION_CONFIG, DEFAULT_SOURCE_CONFIG
 
 
 class ACTModel:

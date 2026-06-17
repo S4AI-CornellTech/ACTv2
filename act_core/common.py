@@ -11,7 +11,7 @@ from .units import *
 """
 Root directory of the project.
 """
-ACT_ROOT = os.path.dirname(__file__) + "/.."
+ACT_ROOT = os.path.dirname(__file__)
 
 
 def get_src_or_loc(arg):

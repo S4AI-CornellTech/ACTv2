@@ -4,21 +4,21 @@
 # LICENSE file in the root directory of this source tree.
 
 from .base_test_case import BaseTestCase
-from ..core.common import *
-from ..core.capacitor_model import (
+from act_core.common import *
+from act_core.capacitor_model import (
     CapacitorModel,
     CapacitorType,
     DEFAULT_CARBON_PER_CAPACITOR,
 )
-from ..core.carbon import SourceType
-from ..core.units import *
-from ..core.battery_model import BatteryModel
-from ..core.common import EnergyLocation
-from ..core.dram_model import DRAMModel
-from ..core.hdd_model import HDDModel
-from ..core.materials_model import MaterialsModel
-from ..core.pcb_model import PCBModel
-from ..core.ssd_model import SSDModel
+from act_core.carbon import SourceType
+from act_core.units import *
+from act_core.battery_model import BatteryModel
+from act_core.common import EnergyLocation
+from act_core.dram_model import DRAMModel
+from act_core.hdd_model import HDDModel
+from act_core.materials_model import MaterialsModel
+from act_core.pcb_model import PCBModel
+from act_core.ssd_model import SSDModel
 
 
 class ModelUnitTests(BaseTestCase):

@@ -4,19 +4,19 @@
 # LICENSE file in the root directory of this source tree.
 
 from ..act_model import ACTModel
-from ..core.carbon import SourceType
-from ..core.common import *
+from act_core.carbon import SourceType
+from act_core.common import *
 
 from .base_test_case import BaseTestCase
-from ..core.units import *
+from act_core.units import *
 import copy
 import glob
 
 import yaml
 
-from ..core.bom import BOM
+from act_core.bom import BOM
 
-from ..core.logger import log
+from act_core.logger import log
 
 
 class ACTModelTests(BaseTestCase):

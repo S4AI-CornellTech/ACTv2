@@ -3,8 +3,8 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from ..core.utils import *
-from ..core.units import mm2
+from act_core.utils import *
+from act_core.units import mm2
 
 
 class UtilsTests:

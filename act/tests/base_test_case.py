@@ -13,8 +13,8 @@ from unittest.mock import patch
 
 from ..act_model import main
 
-from ..core.logger import setup_logger
-from ..core.common import *
+from act_core.logger import setup_logger
+from act_core.common import *
 import warnings
 
 from ..act_model import ACTModel

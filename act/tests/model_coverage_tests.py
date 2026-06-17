@@ -3,16 +3,16 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from ..core.capacitor_model import CapacitorModel, CapacitorType
-from ..core.dram_model import DRAMModel
-from ..core.hdd_model import HDDModel
+from act_core.capacitor_model import CapacitorModel, CapacitorType
+from act_core.dram_model import DRAMModel
+from act_core.hdd_model import HDDModel
 
-from ..core.logic_model import LogicModel
-from ..core.ssd_model import SSDModel
+from act_core.logic_model import LogicModel
+from act_core.ssd_model import SSDModel
 
 from .base_test_case import BaseTestCase
-from ..core.common import *
-from ..core.units import mm2
+from act_core.common import *
+from act_core.units import mm2
 
 
 class ModelCoverageTests(BaseTestCase):
