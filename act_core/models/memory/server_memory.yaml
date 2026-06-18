@@ -1,0 +1,17 @@
+# Per-GB embodied carbon (kgCO2e/GB) by server memory type.
+#
+# Source: EcoServe paper, Table 1 / Section 3.1.2 -- TechInsights "Micron 1a DRAM
+# technology" (Nov 2024) + SK hynix HBM3e (2024). Wafer-scale DRAM carbon scaled
+# by per-technology bit-density (newer node -> higher density -> lower kgCO2e/GB).
+# This unifies EServe's GPU + CPU memory carbon onto one paper-backed source,
+# replacing the GPU calculator's unsourced 0.85 (which was higher than ACT's
+# oldest DDR3-50nm node and absent from the paper).
+HBM3e: 0.24
+HBM3: 0.24
+HBM2e: 0.24
+"HBM1β": 0.24
+HBM2: 0.28
+"HBM1α": 0.28
+DDR4: 0.29
+LPDDR5: 0.29
+GDDR6: 0.36
