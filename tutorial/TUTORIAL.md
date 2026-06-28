@@ -1,8 +1,7 @@
 # ACT — hands-on: model your own hardware (≈20 min)
 
 Model a real machine's **embodied (manufacturing) carbon** bottom-up from a bill-of-materials,
-learn which knobs move the number, build your own server, and extend the tool's data. This follows
-the 5-minute ACT intro (`TALKING_POINTS.md`).
+learn which knobs move the number, build your own server, and extend the tool's data.
 
 You'll drive ACT's **real CLI**, `act_model`, directly on BOM files you edit. Run everything **from the
 ACT repo root** (so `act.act_model` and `act_core` import), with a Python that has ACT's deps (pint +
@@ -39,7 +38,7 @@ Open `act/boms/dellr740.yaml` alongside the report and match entries: 8× 3.84 T
 36 GB DDR3 modules, 2× 28 nm CPU dies.
 
 **Notice:** storage dominates — **SSD ~1,120 · DRAM ~380 · CPU only ~23 kg**. The CPU, the part people
-picture as "the chip," is ~1.5% of the embodied total. *(In the suite, this same BOM is `make demo-act`.)*
+picture as "the chip," is ~1.5% of the embodied total.
 
 ---
 
@@ -114,15 +113,15 @@ drops to **≈ 7.8 kg**, near the wind result (7.0) and far below coal (20.9). T
 **process node**, **memory type**, or **material**: one enum member + one data row.
 
 > These are edits on *your* ACT checkout and are purely additive (no existing value changes), so ACT's
-> tests — and the full-stack-carbon suite's regression baselines — stay green.
+> tests stay green.
 
 ---
 
 ## Where this goes next
 
-You modeled whole **servers** — bottom-up embodied carbon from a BOM. In the full-stack-carbon
-walkthrough this hands off to **EServe**, which takes the **GPU accelerator** case: it models an H100
-natively (including its HBM), then adds the **host server** it racks into — and shows that host (the kind
-of box you just modeled) **dominates** the embodied footprint, ~10× the GPU, with the
-embodied-vs-operational balance set by the grid (and the node). The skill you just practiced — reading a
-system as a bill-of-materials — is exactly what makes EServe's "the host, not the accelerator" point land.
+You modeled whole **servers** — bottom-up embodied carbon from a BOM. **EServe** (the next tool) takes
+the **GPU accelerator** case: it models an H100 natively (including its HBM), then adds the **host
+server** it racks into — and shows that host (the kind of box you just modeled) **dominates** the embodied
+footprint, ~10× the GPU, with the embodied-vs-operational balance set by the grid (and the node). The
+skill you just practiced — reading a system as a bill-of-materials — is exactly what makes EServe's "the
+host, not the accelerator" point land.

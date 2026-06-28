@@ -1,6 +1,6 @@
 # ACT sensitivity playground — one logic die + one DRAM.
-# Change ONE field below, re-run, and watch one number move:
-#   ./tutorial.sh exercises/sensitivity.yaml        (from walkthrough/01_act/)
+# Change ONE field below, re-run, and watch one number move (from the ACT repo root):
+#   python -m act.act_model -m tutorial/exercises/sensitivity.yaml -o /tmp/out
 #
 #   knob A  soc.process   28nm -> 7nm              advanced node: MORE carbon per cm2
 #   knob B  soc.fab_ci    coal -> wind             the fab grid drives the energy term

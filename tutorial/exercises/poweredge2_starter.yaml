@@ -1,9 +1,9 @@
 # =====================================================================
 #  Build-your-own capstone: a SECOND Dell PowerEdge.
-#  Fill in every __FILL__ from your server's spec sheet, then run:
-#     ./tutorial.sh exercises/poweredge2_starter.yaml   (from walkthrough/01_act/)
+#  Fill in every __FILL__ from your server's spec sheet, then run (from the ACT repo root):
+#     python -m act.act_model -m tutorial/exercises/poweredge2_starter.yaml -o /tmp/out
 #  Compare your total to solutions/EXPECTED.md.
-#  Reference BOM (a full server): ../../ACT/act/boms/dellr740.yaml
+#  Reference BOM (a full server): act/boms/dellr740.yaml
 #  Duplicate the cpu.* / dram.* / ssd.* blocks to match your real socket/module/drive counts.
 # =====================================================================
 name: "PowerEdge <MODEL-TBD> (my build)"

@@ -1,11 +1,12 @@
-# Expected results — segment-1 ACT tutorial
+# Expected results — ACT tutorial
 
-Reference numbers for the hands-on. Recompute any BOM with `./tutorial.sh <bom>` from
-`walkthrough/01_act/`. (FAB = FABRICATION; each component also carries 150 g/IC PACKAGING.)
+Reference numbers for the hands-on. Recompute any BOM from the ACT repo root with
+`python -m act.act_model -m <bom> -o /tmp/out`. (FAB = FABRICATION; each component also carries
+150 g/IC PACKAGING.)
 
 ## Stage 1 — Dell R740 (read example)
-`../../ACT/act/boms/dellr740.yaml` → **total_carbon ≈ 1,523.1 kg** (FABRICATION ~1,468, PACKAGING ~55).
-By class: **SSD ~1,120 · DRAM ~380 · CPU ~23 kg**. (This is the canonical `make demo-act`.)
+`act/boms/dellr740.yaml` → **total_carbon ≈ 1,523.1 kg** (FABRICATION ~1,468, PACKAGING ~55).
+By class: **SSD ~1,120 · DRAM ~380 · CPU ~23 kg**.
 
 ## Stage 2 — sensitivity (`exercises/sensitivity.yaml`)
 Baseline — soc 7 cm² / 28nm / coal + mem 64 GB / ddr3_50nm → **total ≈ 55.49 kg**
