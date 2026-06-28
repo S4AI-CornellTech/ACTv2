@@ -4,18 +4,18 @@ Model a real machine's **embodied (manufacturing) carbon** bottom-up from a bill
 learn which knobs move the number, build your own server, and extend the tool's data. This follows
 the 5-minute ACT intro (`TALKING_POINTS.md`).
 
-You'll use the **real ACT CLI** through a thin helper, `tutorial.sh`, which runs any BOM and prints its
-carbon report:
+You'll drive ACT's **real CLI**, `act_model`, directly on BOM files you edit. Run everything **from the
+ACT repo root** (so `act.act_model` and `act_core` import), with a Python that has ACT's deps (pint +
+pyyaml — the suite's `make setup` builds `.envs/act`, or `pip install pint pyyaml` in your own env):
 
 ```bash
-cd ACT/tutorial
-./tutorial.sh <bom.yaml>          # run a BOM → total_carbon + result_by_category
+cd ACT                                                 # the repo root
+python -m act.act_model -m <bom>.yaml -o /tmp/act-out  # the real tool
+cat /tmp/act-out/act_report.yaml                       # total_carbon + result_by_category
 ```
 
-Prereq: an ACT Python env (pint + pyyaml). Standalone, point the runner at it with
-`PYTHON=/path/to/venv/bin/python ./tutorial.sh …` (or activate it so `python3` works). From the
-**full-stack-carbon** suite, `make setup` builds it and `make tutorial-act` runs these. Paths below are
-relative to `ACT/tutorial/`.
+(From the **full-stack-carbon** suite, `make tutorial-act` runs the stages below on the suite's env.)
+Paths below are relative to the **ACT repo root**.
 
 **What a BOM is.** A YAML list of components. Each `silicon:` entry is a **logic** die (`area` +
 `process` node), **DRAM** (`model: dram`, `capacity` + `process`), **flash/SSD** (`model: flash`), or
@@ -30,11 +30,12 @@ component takes optional `n_ics`, `fab_yield`, `fab_ci` (fab grid), and `gpa` (g
 Run ACT on the committed Dell R740 server BOM:
 
 ```bash
-./tutorial.sh ../act/boms/dellr740.yaml
+python -m act.act_model -m act/boms/dellr740.yaml -o /tmp/act-out
+cat /tmp/act-out/act_report.yaml
 ```
 
 You'll see **`total_carbon ≈ 1523 kg`** with `result_by_category` (FABRICATION ~1468, PACKAGING ~55).
-Open `../act/boms/dellr740.yaml` alongside the report and match entries: 8× 3.84 TB SSDs, 12×
+Open `act/boms/dellr740.yaml` alongside the report and match entries: 8× 3.84 TB SSDs, 12×
 36 GB DDR3 modules, 2× 28 nm CPU dies.
 
 **Notice:** storage dominates — **SSD ~1,120 · DRAM ~380 · CPU only ~23 kg**. The CPU, the part people
@@ -44,10 +45,10 @@ picture as "the chip," is ~1.5% of the embodied total. *(In the suite, this same
 
 ## Stage 2 — Change the config, watch the number move (≈6 min)
 
-Open `exercises/sensitivity.yaml` — one logic die (7 cm², 28 nm, coal grid) + one 64 GB DDR3 module:
+Open `tutorial/exercises/sensitivity.yaml` — one logic die (7 cm², 28 nm, coal grid) + one 64 GB DDR3 module:
 
 ```bash
-./tutorial.sh exercises/sensitivity.yaml          # total ≈ 55.5 kg  (soc 11.3, mem 43.9)
+python -m act.act_model -m tutorial/exercises/sensitivity.yaml -o /tmp/act-out   # total ≈ 55.5 kg
 ```
 
 Now change **one** field, re-run, watch **one** number move:
@@ -58,7 +59,7 @@ Now change **one** field, re-run, watch **one** number move:
 | **B · fab grid** | `soc.fab_ci: coal → wind` (now at 7nm) | soc **20.9 → 7.0 kg** — *where* you fabricate drives the energy term (coal 820 vs wind 11 g/kWh) |
 | **C · memory** | `mem.process: ddr3_50nm → ddr4_10nm` | mem **43.9 → 4.8 kg** (~9×) — newer DRAM is far less carbon per GB; or double `capacity` and watch it scale linearly |
 
-All three at once is `solutions/sensitivity_solved.yaml` (**total ≈ 12.0 kg**).
+All three at once is `tutorial/solutions/sensitivity_solved.yaml` (**total ≈ 12.0 kg**).
 
 **Takeaway:** the headline number is a function of a handful of explicit assumptions — node, grid, memory
 tech, capacity — and ACT makes every one editable. Note **A and B fight**: a newer node *raises*
@@ -68,21 +69,21 @@ embodied carbon while a cleaner grid *lowers* it, so "advanced node" is not auto
 
 ## Stage 3 — Build your own: a second PowerEdge (≈8 min)
 
-Now model a whole server yourself. Open `exercises/poweredge2_starter.yaml` and fill in every `__FILL__`
-from a server's spec sheet — CPU socket count + die area + node, DRAM module count + capacity, SSD count
-+ capacity, PCB. Use `../act/boms/dellr740.yaml` as a worked reference, and duplicate the
+Now model a whole server yourself. Open `tutorial/exercises/poweredge2_starter.yaml` and fill in every
+`__FILL__` from a server's spec sheet — CPU socket count + die area + node, DRAM module count + capacity,
+SSD count + capacity, PCB. Use `act/boms/dellr740.yaml` as a worked reference, and duplicate the
 `cpu.* / dram.* / ssd.*` blocks to match the real counts. Then:
 
 ```bash
-./tutorial.sh exercises/poweredge2_starter.yaml
+python -m act.act_model -m tutorial/exercises/poweredge2_starter.yaml -o /tmp/act-out
 ```
 
-Compare your total + breakdown to `solutions/EXPECTED.md`. The completed solution
-(`solutions/poweredge2.yaml`) is the **Fair-CO2 paper's test node** — 2× Xeon Gold 6240R (14 nm) ·
-192 GB DDR4 · 480 GB SSD:
+Compare your total + breakdown to `tutorial/solutions/EXPECTED.md`. The completed solution
+(`tutorial/solutions/poweredge2.yaml`) is the **Fair-CO2 paper's test node** — 2× Xeon Gold 6240R (14 nm)
+· 192 GB DDR4 · 480 GB SSD:
 
 ```bash
-./tutorial.sh solutions/poweredge2.yaml          # total ≈ 72.55 kg
+python -m act.act_model -m tutorial/solutions/poweredge2.yaml -o /tmp/act-out   # total ≈ 72.55 kg
 ```
 
 **Takeaway:** the embodied profile is all about the config. The R740 (Stage 1) was 1,523 kg and
@@ -96,20 +97,19 @@ paper's own ACT-derived per-CPU number, 18.53 kg.)
 ## Stage 4 — Extend the data: add a fab location (≈2 min)
 
 ACT's coefficients are **data, not magic** — you can extend coverage. Say you want to fabricate on the
-French grid (nuclear-heavy, ~56 g/kWh), which ACT doesn't ship. Two additive edits in this ACT repo
-(paths shown relative to `tutorial/`):
+French grid (nuclear-heavy, ~56 g/kWh), which ACT doesn't ship. Two additive edits in this ACT repo:
 
-1. **`../act_core/common.py`** — add a member to the `EnergyLocation` enum (after `ICELAND`):
+1. **`act_core/common.py`** — add a member to the `EnergyLocation` enum (after `ICELAND`):
    ```python
    FRANCE = "france"
    ```
-2. **`../act_core/models/carbon_intensity/location_2022.yaml`** — add a row:
+2. **`act_core/models/carbon_intensity/location_2022.yaml`** — add a row:
    ```yaml
    "france"    : 56 g / kWh
    ```
    > Note: the default `location.yaml` is a **symlink to `location_2022.yaml`** — edit the real file.
 
-Now use it: set `fab_ci: france` on the die in `exercises/sensitivity.yaml` (at 7 nm) and re-run — soc
+Now use it: set `fab_ci: france` on the die in `tutorial/exercises/sensitivity.yaml` (at 7 nm) and re-run — soc
 drops to **≈ 7.8 kg**, near the wind result (7.0) and far below coal (20.9). The same pattern adds a new
 **process node**, **memory type**, or **material**: one enum member + one data row.
 

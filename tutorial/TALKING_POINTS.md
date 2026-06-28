@@ -6,7 +6,8 @@ foundation every other tool builds on — and the number the rest of the walkthr
 will complicate, because *one number is never the whole answer*.
 
 **Run it:** the 5-min demo runs from the **full-stack-carbon** suite (`make demo-act`); the **hands-on**
-below runs from this folder (`./tutorial.sh …`, see `TUTORIAL.md`).
+drives ACT's real `act_model` CLI on BOMs you edit (`python -m act.act_model -m <bom> -o out`, see
+`TUTORIAL.md`).
 
 **Headline: ~1,523 kgCO2e** embodied in one Dell R740 — storage-dominated:
 
